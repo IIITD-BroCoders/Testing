@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<head>
+  <title>Sign up</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f1f1f1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .container {
+      max-width: 400px;
+      padding: 40px;
+      background-color: #fff;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .container h2 {
+      text-align: center;
+      margin-bottom: 30px;
+      color: #333;
+    }
+
+    .container input[type="text"],
+    .container input[type="password"] {
+      width: 100%;
+      padding: 12px;
+      border: none;
+      background-color: #f5f5f5;
+      border-radius: 5px;
+      margin-bottom: 20px;
+      font-size: 16px;
+    }
+
+    .container input[type="submit"] {
+      background-color: #4caf50;
+      color: #fff;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      width: 100%;
+      font-size: 16px;
+      transition: background-color 0.3s ease;
+    }
+
+    .container input[type="submit"]:hover {
+      background-color: #45a049;
+    }
+
+    .container .error-msg {
+      color: red;
+      margin-bottom: 15px;
+      text-align: center;
+    }
+
+    .container .signup-link {
+      text-align: center;
+    }
+
+    .container .signup-link a {
+      color: #333;
+      text-decoration: none;
+    }
+
+    .container .signup-link a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Sign Up</h2>
+    <form action="/sign_up" method='post'>
+     <input type="text" name="first_name" placeholder="First Name" required>  
+     <input type="text" name="middle_name" placeholder="Middle Name">  
+     <input type="text" name="last_name" placeholder="Last Name" required>  
+     <input class = "username-realtime" type="text" name="username" placeholder="Username" required>  
+     <input type="password" name="password" placeholder="Password" required>
+     <input type="password" name="con_password" placeholder="Confirm Password" required>
+     <input type="submit" value="Sign Up">
+    <div class="error-msg"></div>
+    </form>
+    <!-- <div class="signup-link">
+      Don't have an account? <a href="#">Sign up</a>
+      comment added for git check
+    </div> -->
+  </div>
+  <script>
+    const username = document.querySelector('.username-realtime');
+    document.addEventListener("input", function() {
+      if (username.value.length == 0) {
+        username.style.border = "1px solid #ccc";
+        return;
+      } else {
+        fetch('/check_username?username=' + encodeURIComponent(username.value))
+          .then(response => response.json())
+          .then(data => {
+            if (data['status'] === 'ok') {
+              username.style.border = "1px solid green";
+            } else {
+              username.style.border = "1px solid red";
+            }
+          });
+      }
+    });
+  </script>
+  
+</body>
+</html>
